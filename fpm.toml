@@ -1,0 +1,6 @@
+name = "datetime"
+author = ["Patrizia Favaron"]
+copyright = "2023 Patrizia Favaron"
+license = "MIT"
+description = "Fortran library for simple, time-zone independent, date and time management"
+keywords = ["datetime"]

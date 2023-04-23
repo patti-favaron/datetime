@@ -11,3 +11,16 @@ One possible line of action is to generate information like this externally, for
 Another is to write an own set of functions, and use them personally.
 
 One other more, to write an own set of functions and share it.
+
+
+## Usage
+
+This module is available with the [Fortran package manager](https://fpm.fortran-lang.org).
+To use it in your project add the following dependency to your package manifest
+
+```toml
+[dependencies]
+datetime.git = "https://github.com/patti-favaron/datetime"
+```
+
+You can also directly copy the source from [`src/datetime.f90`](./src/datetime.f90) to your project.
