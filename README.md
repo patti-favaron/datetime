@@ -44,7 +44,10 @@ As a consequence, no automatic passage to and from time-saving is done.
 
 ### Data types
 
-Three data types are used within 'datetime' module:
+#### Overview
+
+Three ime data types are used within 'datetime' module:
 
 - User-defined type 'Time', representing a date and time encoded as year, month in year (1 to 12), day in month (1 to 28, 29, 30 or 31 depending on month and year), hour (0 to 23), minute (0 to 59) and second (0 to 59).
+- Numeric time, encoded as a 32 bit integer representing the displcement of current time from the "local epoch", that is, 1970-01-01 00:00:00 according to the central meridian.
 - 
