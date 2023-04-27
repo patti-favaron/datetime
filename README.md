@@ -24,3 +24,27 @@ datetime.git = "https://github.com/patti-favaron/datetime"
 ```
 
 You can also directly copy the source from [`src/datetime.f90`](./src/datetime.f90) to your project.
+
+
+## Description
+
+### Nature and purpose (as imagined by the author)
+
+The module Fortran-90 'datetime.f90' is a lean implementation of date and time management, with resolution down to 1s, designed to deal with "local" calendar operations.
+
+The use case imagined by the author is to complement slow-sampling data with time stamps, and performing on them basic operations like adding/subtracting a time interval.
+
+Other uses are possible as well however. 😊
+
+### Basic assumptions
+
+No time zone is considered: date and times are always "local", that is, conventionally attributed to the local time zone central meridian.
+
+As a consequence, no automatic passage to and from time-saving is done.
+
+### Data types
+
+Three data types are used within 'datetime' module:
+
+- User-defined type 'Time', representing a date and time encoded as year, month in year (1 to 12), day in month (1 to 28, 29, 30 or 31 depending on month and year), hour (0 to 23), minute (0 to 59) and second (0 to 59).
+- 
