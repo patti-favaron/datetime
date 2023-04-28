@@ -56,4 +56,21 @@ Conversion functions exist, allowing to transform one form into the other.
 
 #### 'Time' user defined type
 
+The 'Time' user defined type is defined as
+
+    type Time
+        integer(2)  :: iYear
+        integer(1)  :: iMonth
+        integer(1)  :: iDay
+        integer(1)  :: iHour
+        integer(1)  :: iMinute
+        integer(1)  :: iSecond
+    end type Time
+
+No member functions are defined within 'Time'. As we'll see, functions exist in the library whose argument list include objects of type 'Time' as arguments.
+
+To initialize a 'Time' object the standard Fortran constructor syntax
+
+    tTime = Time(2000_2, 1_1, 1_1, 0_1, 0_1, 0_1)
+    
 
