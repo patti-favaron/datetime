@@ -73,4 +73,4 @@ To initialize a 'Time' object the standard Fortran constructor syntax
 
     tTime = Time(2000_2, 1_1, 1_1, 0_1, 0_1, 0_1)
     
-
+The _2 and _1 suffixes are the Fortran way to specify integer(2) and integer(1) literals respectively.
