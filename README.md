@@ -176,4 +176,97 @@ Notes:
 - The result represents a "date", defined as a time value whose hour, minute and second parts are ignored during use.
 - Hour, minute and second are forced to 0.
 
+##### Convert string to time
 
+Call:
+
+    tTime = fromString(sISOTime)
+
+Arguments:
+
+    character(len=19), intent(in)   :: sISOTime ! String containing a date and time in ISO form (YYYY-MM-DD HH:MM:SS)
+    type(Time)                      :: tTime    ! Result
+    
+Notes:
+
+- The character represented as blank inside the example template string (YYYY-MM-DD HH:MM:SS) is in reality ignored, and can be inserted as anything. For example, it may be a "T" as in 2023-03-08T10:30:00.
+
+##### Convert time to ISO string
+
+Call:
+
+    sISOTime = toString(tTime, lTeeForm)
+
+Arguments:
+
+    type(Time), intent(in)          :: tTime    ! Time value to be converted
+    logical, intent(in), optional   :: lTeeForm ! .true.: string with a T separator as in 2023-03-08T10:30:00; .false. (default): blank
+    character(len=19)               :: sISOTime ! Result
+    
+Notes:
+
+- The use of a blank or "T" separator between date and time should be compared to actual uses. The default is a blank (acknowledged easily by various importers, like for example R's ```read.csv``` function.
+
+##### Convert string with date only to time
+
+Call:
+
+    tTime = fromDayString(sISODate)
+
+Arguments:
+
+    character(len=10), intent(in)   :: sISODate ! String containing a date in ISO form (YYYY-MM-DD)
+    type(Time)                      :: tTime    ! Result
+    
+Notes:
+
+- Hour, minute and second in ```tTime``` are forced to 0.
+
+##### Convert time to ISO string with date only
+
+Call:
+
+    sISODate = toDayString(tTime)
+
+Arguments:
+
+    type(Time), intent(in)          :: tTime    ! Time value to be converted
+    character(len=10)               :: sISOTime ! Result
+    
+Notes:
+
+- Whatever hour, minute and second in ```tTime```, their value is ignored during conversion.
+
+#### Operator list
+
+##### Date addition
+
+Call:
+
+    tTimeShifted = tTime + iTimeDelta
+    
+Arguments:
+
+    type(Time)  :: tTimeShifted ! Shifted time
+    type(Time)  :: tTime        ! Original time
+    integer     :: iTimeDelta   ! Time to add, in seconds (may be zero or negative)
+
+##### Date subtraction - difference
+
+Calls:
+
+    tTimeShifted = tTime - iTimeDelta
+    
+    iTimeDelta = tTimeTo - tTimeFrom
+    
+Arguments:
+
+    type(Time)  :: tTimeShifted ! Shifted time
+    type(Time)  :: tTime        ! Original time
+    type(Time)  :: tTimeFrom    ! Original time 1
+    type(Time)  :: tTimeTo      ! Original time 2
+    integer     :: iTimeDelta   ! Time to add, in seconds (may be zero or negative)
+
+Notes:
+
+- The operator is polymorphic.
