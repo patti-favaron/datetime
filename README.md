@@ -129,3 +129,35 @@ Notes:
 - The result represents the displacement, in seconds, of time from the Local Epoch, that is 01. 01. 1970 relative to local central meridian.
 - For 32 bits default integer, the maximum date representable without overflow is 18. 01. 2038.
 
+##### Convert from epoch to Time
+
+Call:
+
+    tTime = fromEpoch(iEpoch)
+    
+Arguments:
+
+    integer, intent(in) :: iEpoch   ! Epoch value to convert
+    type(Time)          :: tTime    ! Result
+
+Notes:
+
+- For 32 bits default integer, the maximum date representable without overflow is 18. 01. 2038.
+
+##### Julian day corresponding to a Time value
+
+Call:
+
+    iJDay = julianDay(tTime)
+    
+Arguments:
+
+    type(Time), intent(in)  :: tTime    ! Object of type Time to be converted
+    integer                 :: iJDay    ! Result
+    
+Notes:
+
+- The result represents the Julian day relative to local central meridian.
+- The number of day-in-year can be computed by adding 1 to the difference of current time Julian day from the Julian day of current time's start of year.
+
+
