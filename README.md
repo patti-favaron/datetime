@@ -25,6 +25,13 @@ datetime.git = "https://github.com/patti-favaron/datetime"
 
 You can also directly copy the source from [`src/datetime.f90`](./src/datetime.f90) to your project.
 
+## Known limits and issues
+
+No provisions have been taken to deal with sub-second time fractions (this may be addressed in a future version).
+
+Leap years are managed, but leap _seconds_ are not.
+
+The library ```datetime``` is a work-in-progress. ☺️
 
 ## Description
 
@@ -41,6 +48,20 @@ Other uses are possible as well however. 😊
 No time zone is considered: date and times are always "local", that is, conventionally attributed to the local time zone central meridian.
 
 As a consequence, no automatic passage to and from time-saving is done.
+
+### Definitions
+
+As the ```datetime``` library deals with "dates and times", it could be interesting to know what tha author considers a "date", and what a "time".
+
+A date-and-time (datetime for brevity) is a time instant, expressed with a one second resolution, valid since the "local epoch".
+
+The "local epoch" is the datetime 1970-01-01T00:00:00 _in the local time zone_. According to this definition, the local epoch of time zone CET is not the same as the local epoch in GMT zone.
+
+The "epoch", or "global epoch", is the GMT/UMT local epoch. This term is introduced just for clarity, as ```datetime``` only deals with local epoch.
+
+Within ```datetime``` the terms "date and time" and "time" are considered synonymous: no time separated from date is considered.
+
+The term "date" is intended as a date and time where hour, minute and second are ignored. As a result of conversion to date, hour minute and second are forced to zero. But this is by no means mandatory: the only requirement is hour, minute and second are valid.
 
 ### Data types
 
