@@ -160,4 +160,20 @@ Notes:
 - The result represents the Julian day relative to local central meridian.
 - The number of day-in-year can be computed by adding 1 to the difference of current time Julian day from the Julian day of current time's start of year.
 
+##### Date corresponding to a Julian day
+
+Call:
+
+    tTime = date(iJDay)
+    
+Arguments:
+
+    integer, intent(in) :: iJDay    ! Julian day to be converted
+    type(Time)          :: tTime    ! Result
+    
+Notes:
+
+- The result represents a "date", defined as a time value whose hour, minute and second parts are ignored during use.
+- Hour, minute and second are forced to 0.
+
 
