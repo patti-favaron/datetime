@@ -284,7 +284,7 @@ contains
         iDayIndex   = 365*iYearIndex + iYearIndex/4
         iMonthIndex = floor((iPostJulianDay - iDayIndex)/MONTH_DURATION)
 
-        ! Deduce preliminary date from time indices
+        ! Compute date elements
         tTime % iDay = int(iPostJulianDay - floor(MONTH_DURATION*iMonthIndex) - iDayIndex, kind=1)
         if(iMonthIndex > 13) then
             tTime % iMonth = int(iMonthIndex - 13, kind=1)
@@ -293,6 +293,9 @@ contains
         end if
         tTime % iYear = int(iYearIndex - 4715, kind=2)
         if(tTime % iMonth > 2_1) tTime % iYear = tTime % iYear - 1_2
+        tDateTime % iHour   = 0_1
+        tDateTime % iMinute = 0_1
+        tDateTime % iSecond = 0_1
 
     end function date
     
