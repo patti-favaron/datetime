@@ -84,8 +84,48 @@ Call:
 
     tTime = now()
     
-with
+Arguments:
 
-    type(tTime) :: tTime
+    type(Time) :: tTime
 
+Notes:
+
+- Function ```now()``` is actually a wrapper of standard Fortran subroutine ```date_and_time```.
+
+##### Build time from default integer values
+
+Call:
+
+    tTime = toTime(iYear, iMonth, iDay, iHour, iMinute, iSecond)
+    
+Arguments:
+
+    integer, intent(in) :: iYear    ! Year, including century
+    integer, intent(in) :: iMonth   ! Month, 1 to 12, with 1 = January, ..., 12 = December
+    integer, intent(in) :: iDay     ! Day in month, 1 to usual month dependent limit
+    integer, intent(in) :: iHour    ! Hour, 0 to 23
+    integer, intent(in) :: iMinute  ! Minute, 0 to 59
+    integer, intent(in) :: iSecond  ! Second, 0 to 59
+    type(Time)          :: tTime    ! Result
+    
+Notes:
+
+- No validity check is made on arguments.
+- Individual argument values are converted from default integer to the actual length of corresponding type element.
+
+##### Convert from Time to epoch
+
+Call:
+
+    iEpoch = toEpoch(tTime)
+    
+Arguments:
+
+    type(Time), intent(in)  :: tTime    ! Object of type Time to be converted
+    integer                 :: iEpoch   ! Result
+    
+Notes:
+
+- The result represents the displacement, in seconds, of time from the Local Epoch, that is 01. 01. 1970 relative to local central meridian.
+- For 32 bits default integer, the maximum date representable without overflow is 18. 01. 2038.
 
