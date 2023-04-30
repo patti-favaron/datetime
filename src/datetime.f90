@@ -355,10 +355,11 @@ contains
     end function date
     
     
-    function fromString(sDateTime) result(tDateTime)
+    function fromString(sDateTime, lIsValid) result(tDateTime)
         
         ! Routine arguments
         character(len=19), intent(in)   :: sDateTime
+        logical, intent(out), optional  :: lIsValid
         type(Time)                      :: tDateTime
         
         ! Locals
@@ -374,6 +375,14 @@ contains
             tDateTime % iSecond
         if(iErrCode /= 0) then
             tDateTime = Time(1970_2, 1_1, 1_1, 0_1, 0_1, 0_1)
+            if(present(lIsValid)) then
+                lIsValid = isValid(tDateTime)
+            end if
+        end if
+        
+        ! Validate, if requested
+        if(present(lIsValid)) then
+            lIsValid = isValid(tDateTime)
         end if
         
     end function fromString
@@ -413,10 +422,11 @@ contains
     end function toString
     
     
-    function fromDayString(sDateTime) result(tDateTime)
+    function fromDayString(sDateTime, lIsValid) result(tDateTime)
         
         ! Routine arguments
         character(len=10), intent(in)   :: sDateTime
+        logical, intent(out), optional  :: lIsValid
         type(Time)                      :: tDateTime
         
         ! Locals
@@ -429,10 +439,18 @@ contains
             tDateTime % iDay
         if(iErrCode /= 0) then
             tDateTime = Time(1970_2, 1_1, 1_1, 0_1, 0_1, 0_1)
+            if(present(lIsValid)) then
+                lIsValid = isValid(tDateTime)
+            end if
         end if
         tDateTime % iHour   = 0_1
         tDateTime % iMinute = 0_1
         tDateTime % iSecond = 0_1
+        
+        ! Validate, if requested
+        if(present(lIsValid)) then
+            lIsValid = isValid(tDateTime)
+        end if
         
     end function fromDayString
     
