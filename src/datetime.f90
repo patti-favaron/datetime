@@ -43,6 +43,7 @@ module datetime
     
     ! Public interface: procedures
     public  :: Time
+    public  :: isValid
     public  :: now
     public  :: toTime
     public  :: toEpoch
@@ -116,17 +117,66 @@ contains
         
     end function now
     
-
-    function toTime(iYear, iMonth, iDay, iHour, iMinute, iSecond) result(tTime)
+    
+    function isValid(tTime) result(lIsValid)
         
         ! Routine arguments
-        integer, intent(in)     :: iYear
-        integer, intent(in)     :: iMonth
-        integer, intent(in)     :: iDay
-        integer, intent(in)     :: iHour
-        integer, intent(in)     :: iMinute
-        integer, intent(in)     :: iSecond
-        type(Time)              :: tTime
+        type(Time), intent(in)  :: tTime
+        logical                 :: lIsValid
+        
+        ! Locals
+        
+        ! Assume success (will falsify on failure)
+        lIsValid = .true.
+        
+        ! Check time part
+        if( &
+            tTime % iHour < 0_1   .or. tTime % iHour >= 24_1   .or. &
+            tTime % iMinute < 0_1 .or. tTime % iMinute >= 60_1 .or. &
+            tTime % iSecond < 0_1 .or. tTime % iSecond >= 60_1      &
+        ) then
+            
+            lIsValid = .false.
+        
+        else
+        
+            ! Check date part
+            if(tTime % iMonth == 2_1) then
+                if(mod(tTime % iYear, 4_2) == 0_2) then
+                    if(tTime % iDay < 1_1 .or. tTime % iDay > 29_1) then
+                        lIsValid = .false.
+                    end if
+                else
+                    if(tTime % iDay < 1_1 .or. tTime % iDay > 28_1) then
+                        lIsValid = .false.
+                    end if
+                end if
+            elseif(tTime % iMonth == 4_1 .or. tTime % iMonth == 6_1 .or. tTime % iMonth == 9_1 .or. tTime % iMonth == 11_1) then
+                if(tTime % iDay < 1_1 .or. tTime % iDay > 30_1) then
+                    lIsValid = .false.
+                end if
+            else
+                if(tTime % iDay < 1_1 .or. tTime % iDay > 31_1) then
+                    lIsValid = .false.
+                end if
+            end if
+        
+        end if
+        
+    end function isValid
+    
+
+    function toTime(iYear, iMonth, iDay, iHour, iMinute, iSecond, lIsValid) result(tTime)
+        
+        ! Routine arguments
+        integer, intent(in)             :: iYear
+        integer, intent(in)             :: iMonth
+        integer, intent(in)             :: iDay
+        integer, intent(in)             :: iHour
+        integer, intent(in)             :: iMinute
+        integer, intent(in)             :: iSecond
+        logical, intent(out), optional  :: lIsValid
+        type(Time)                      :: tTime
         
         ! Locals
         ! --none--
@@ -138,6 +188,11 @@ contains
         tTime % iHour   = int(iHour,   kind=1)
         tTime % iMinute = int(iMinute, kind=1)
         tTime % iSecond = int(iSecond, kind=1)
+        
+        ! Validate, if requested
+        if(present(lIsValid)) then
+            lIsValid = isValid(tTime)
+        end if
         
     end function toTime
     
@@ -300,10 +355,11 @@ contains
     end function date
     
     
-    function fromString(sDateTime) result(tDateTime)
+    function fromString(sDateTime, lIsValid) result(tDateTime)
         
         ! Routine arguments
         character(len=19), intent(in)   :: sDateTime
+        logical, intent(out), optional  :: lIsValid
         type(Time)                      :: tDateTime
         
         ! Locals
@@ -319,6 +375,14 @@ contains
             tDateTime % iSecond
         if(iErrCode /= 0) then
             tDateTime = Time(1970_2, 1_1, 1_1, 0_1, 0_1, 0_1)
+            if(present(lIsValid)) then
+                lIsValid = isValid(tDateTime)
+            end if
+        end if
+        
+        ! Validate, if requested
+        if(present(lIsValid)) then
+            lIsValid = isValid(tDateTime)
         end if
         
     end function fromString
@@ -358,10 +422,11 @@ contains
     end function toString
     
     
-    function fromDayString(sDateTime) result(tDateTime)
+    function fromDayString(sDateTime, lIsValid) result(tDateTime)
         
         ! Routine arguments
         character(len=10), intent(in)   :: sDateTime
+        logical, intent(out), optional  :: lIsValid
         type(Time)                      :: tDateTime
         
         ! Locals
@@ -374,10 +439,18 @@ contains
             tDateTime % iDay
         if(iErrCode /= 0) then
             tDateTime = Time(1970_2, 1_1, 1_1, 0_1, 0_1, 0_1)
+            if(present(lIsValid)) then
+                lIsValid = isValid(tDateTime)
+            end if
         end if
         tDateTime % iHour   = 0_1
         tDateTime % iMinute = 0_1
         tDateTime % iSecond = 0_1
+        
+        ! Validate, if requested
+        if(present(lIsValid)) then
+            lIsValid = isValid(tDateTime)
+        end if
         
     end function fromDayString
     
