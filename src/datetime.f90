@@ -43,6 +43,7 @@ module datetime
     
     ! Public interface: procedures
     public  :: Time
+    public  :: isValid
     public  :: now
     public  :: toTime
     public  :: toEpoch
@@ -115,6 +116,54 @@ contains
         tTime % iSecond = int(ivValues(7), kind=1)
         
     end function now
+    
+    
+    function isValid(tTime) result(lIsValid)
+        
+        ! Routine arguments
+        type(Time), intent(in)  :: tTime
+        logical                 :: lIsValid
+        
+        ! Locals
+        
+        ! Assume success (will falsify on failure)
+        lIsValid = .true.
+        
+        ! Check time part
+        if( &
+            tTime % iHour < 0_1   .or. tTime % iHour >= 24_1   .or. &
+            tTime % iMinute < 0_1 .or. tTime % iMinute >= 60_1 .or. &
+            tTime % iSecond < 0_1 .or. tTime % iSecond >= 60_1      &
+        ) then
+            
+            lIsValid = .false.
+        
+        else
+        
+            ! Check date part
+            if(tTime % iMonth == 2_1) then
+                if(mod(tTime % iYear, 4_2) == 0_2) then
+                    if(tTime % iDay < 1_1 .or. tTime % iDay > 29_1) then
+                        lIsValid = .false.
+                    end if
+                else
+                    if(tTime % iDay < 1_1 .or. tTime % iDay > 28_1) then
+                        lIsValid = .false.
+                    end if
+                end if
+            elseif(tTime % iMonth == 4_1 .or. tTime % iMonth == 6_1 .or. tTime % iMonth == 9_1 .or. tTime % iMonth == 11_1) then
+                if(tTime % iDay < 1_1 .or. tTime % iDay > 30_1) then
+                    lIsValid = .false.
+                end if
+            else
+                if(tTime % iDay < 1_1 .or. tTime % iDay > 31_1) then
+                    lIsValid = .false.
+                end if
+            end if
+        
+        end if
+        
+    end function isValid
     
 
     function toTime(iYear, iMonth, iDay, iHour, iMinute, iSecond) result(tTime)
