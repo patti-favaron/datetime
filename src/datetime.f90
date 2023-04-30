@@ -166,16 +166,17 @@ contains
     end function isValid
     
 
-    function toTime(iYear, iMonth, iDay, iHour, iMinute, iSecond) result(tTime)
+    function toTime(iYear, iMonth, iDay, iHour, iMinute, iSecond, lIsValid) result(tTime)
         
         ! Routine arguments
-        integer, intent(in)     :: iYear
-        integer, intent(in)     :: iMonth
-        integer, intent(in)     :: iDay
-        integer, intent(in)     :: iHour
-        integer, intent(in)     :: iMinute
-        integer, intent(in)     :: iSecond
-        type(Time)              :: tTime
+        integer, intent(in)             :: iYear
+        integer, intent(in)             :: iMonth
+        integer, intent(in)             :: iDay
+        integer, intent(in)             :: iHour
+        integer, intent(in)             :: iMinute
+        integer, intent(in)             :: iSecond
+        logical, intent(out), optional  :: lIsValid
+        type(Time)                      :: tTime
         
         ! Locals
         ! --none--
@@ -187,6 +188,11 @@ contains
         tTime % iHour   = int(iHour,   kind=1)
         tTime % iMinute = int(iMinute, kind=1)
         tTime % iSecond = int(iSecond, kind=1)
+        
+        ! Validate, if requested
+        if(present(lIsValid)) then
+            lIsValid = isValid(tTime)
+        end if
         
     end function toTime
     
