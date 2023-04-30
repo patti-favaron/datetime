@@ -293,9 +293,9 @@ contains
         end if
         tTime % iYear = int(iYearIndex - 4715, kind=2)
         if(tTime % iMonth > 2_1) tTime % iYear = tTime % iYear - 1_2
-        tDateTime % iHour   = 0_1
-        tDateTime % iMinute = 0_1
-        tDateTime % iSecond = 0_1
+        tTime % iHour   = 0_1
+        tTime % iMinute = 0_1
+        tTime % iSecond = 0_1
 
     end function date
     
